@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.6)
+project(computer_graphics)
+add_compile_options(-Wall -Wextra) 
+file(GLOB SRC src/*.cpp glslprogram/*.cpp mesh/*.cpp)
+add_executable(computer_graphics ${SRC})
+target_link_libraries(computer_graphics GLEW glfw OpenGL lodepng)
+install(TARGETS computer_graphics DESTINATION /usr/bin)
