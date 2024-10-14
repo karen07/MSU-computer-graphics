@@ -34,12 +34,12 @@ GLuint Set_Image(char* str)
     return texID;
 }
 
-static void error_callback(int error, const char* description)
+static void error_callback(__attribute__((unused)) int error, const char* description)
 {
     fputs(description, stderr);
 }
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+static void key_callback(GLFWwindow* window, int key, __attribute__((unused)) int scancode, int action, __attribute__((unused)) int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
@@ -60,7 +60,9 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     if (key == GLFW_KEY_X && action == GLFW_PRESS)
         set_fxaa = !set_fxaa;
     if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS) {
-        index_normal_map = ++index_normal_map % 6;
+        index_normal_map++;
+        index_normal_map %= 6;
+
         char normal_name[80];
         sprintf(normal_name, "../texture/%d_norm.png", index_normal_map);
         glActiveTexture(GL_TEXTURE0);
@@ -89,7 +91,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     }
 }
 
-static void window_size_callback(GLFWwindow* window, int width, int height)
+static void window_size_callback(__attribute__((unused)) GLFWwindow* window, int width, int height)
 {
     float ratio;
     ratio = width / (float)height;

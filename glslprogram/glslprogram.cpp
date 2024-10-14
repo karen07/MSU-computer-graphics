@@ -62,10 +62,8 @@ void GLSLProgram::compileShader(const char* fileName) noexcept
     // Check the file name's extension to determine the shader type
     string ext = getExtension(fileName);
     GLSLShader::GLSLShaderType type = GLSLShader::VERTEX;
-    bool matchFound = false;
     for (int i = 0; i < numExts; i++) {
         if (ext == GLSLShaderInfo::extensions[i].ext) {
-            matchFound = true;
             type = GLSLShaderInfo::extensions[i].type;
             break;
         }
