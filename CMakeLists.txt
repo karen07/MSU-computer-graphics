@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.10)
 project(computer_graphics)
 add_compile_options(-Wall -Wextra -Werror -Wpedantic) 
 file(GLOB SRC src/*.cpp glslprogram/*.cpp mesh/*.cpp)
