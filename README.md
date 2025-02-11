@@ -1,4 +1,4 @@
-# computer-graphics
+# MSU computer graphics
 
 ![image](https://github.com/user-attachments/assets/fc2fa621-3351-4b72-b9af-4222462b1469)
 
