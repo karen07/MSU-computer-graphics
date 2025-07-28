@@ -9,7 +9,7 @@ private:
     GLuint nVerts, elements;
     float radius, slices, stacks;
 
-    void generateVerts(float*, float*, float*, GLuint*);
+    void generateVerts(float *, float *, float *, GLuint *);
 
 public:
     VBOSphere(float, int, int);

@@ -19,7 +19,7 @@ GLuint colorTexture = 0, depthTexture = 0;
 GLuint tex1, tex2;
 int index_normal_map = 0;
 
-GLuint Set_Image(char* str)
+GLuint Set_Image(char *str)
 {
     std::vector<unsigned char> image;
     unsigned width_img, height_img;
@@ -28,18 +28,20 @@ GLuint Set_Image(char* str)
     glGenTextures(1, &texID);
     glBindTexture(GL_TEXTURE_2D, texID);
     glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, width_img, height_img);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width_img, height_img, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width_img, height_img, GL_RGBA, GL_UNSIGNED_BYTE,
+                    &image[0]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     return texID;
 }
 
-static void error_callback(__attribute__((unused)) int error, const char* description)
+static void error_callback(__attribute__((unused)) int error, const char *description)
 {
     fputs(description, stderr);
 }
 
-static void key_callback(GLFWwindow* window, int key, __attribute__((unused)) int scancode, int action, __attribute__((unused)) int mods)
+static void key_callback(GLFWwindow *window, int key, __attribute__((unused)) int scancode,
+                         int action, __attribute__((unused)) int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
@@ -91,7 +93,7 @@ static void key_callback(GLFWwindow* window, int key, __attribute__((unused)) in
     }
 }
 
-static void window_size_callback(__attribute__((unused)) GLFWwindow* window, int width, int height)
+static void window_size_callback(__attribute__((unused)) GLFWwindow *window, int width, int height)
 {
     float ratio;
     ratio = width / (float)height;
@@ -115,12 +117,13 @@ static void window_size_callback(__attribute__((unused)) GLFWwindow* window, int
     glBindTexture(GL_TEXTURE_2D, colorTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glBindTexture(GL_TEXTURE_2D, depthTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT,
+                 GL_UNSIGNED_BYTE, NULL);
 }
 
 int main()
 {
-    GLFWwindow* window;
+    GLFWwindow *window;
     glfwSetErrorCallback(error_callback);
     if (!glfwInit())
         exit(EXIT_FAILURE);
@@ -158,14 +161,14 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-    VBOSphere* sphere = new VBOSphere(0.3f, 100, 100);
-    VBOSphere* sphere_toon = new VBOSphere(0.3f, 100, 100);
-    VBOSphere* sphere_fog = new VBOSphere(0.3f, 100, 100);
-    VBOSphere* sphere_fog1 = new VBOSphere(0.3f, 100, 100);
-    VBOSphere* sphere_fog2 = new VBOSphere(0.3f, 100, 100);
-    VBOSphere* sphere_fog3 = new VBOSphere(4.f, 100, 100);
-    VBOPlane* plane = new VBOPlane(10.f, 10.f, 100, 100);
-    VBOPlane* plane_norm = new VBOPlane(1.f, 1.f, 10, 10);
+    VBOSphere *sphere = new VBOSphere(0.3f, 100, 100);
+    VBOSphere *sphere_toon = new VBOSphere(0.3f, 100, 100);
+    VBOSphere *sphere_fog = new VBOSphere(0.3f, 100, 100);
+    VBOSphere *sphere_fog1 = new VBOSphere(0.3f, 100, 100);
+    VBOSphere *sphere_fog2 = new VBOSphere(0.3f, 100, 100);
+    VBOSphere *sphere_fog3 = new VBOSphere(4.f, 100, 100);
+    VBOPlane *plane = new VBOPlane(10.f, 10.f, 100, 100);
+    VBOPlane *plane_norm = new VBOPlane(1.f, 1.f, 10, 10);
 
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
@@ -189,7 +192,8 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT,
+                 GL_UNSIGNED_BYTE, NULL);
 
     GLuint renderFBO = 0;
     glGenFramebuffers(1, &renderFBO);
@@ -216,7 +220,8 @@ int main()
     prog2.setUniform("Resolution", vec2(width, height));
 
     prog1.use();
-    model = glm::translate(mat4(1.f), vec3(1.f, 1.f, -1.f)) * glm::rotate(glm::half_pi<float>(), vec3(1.f, 0.f, 0.f));
+    model = glm::translate(mat4(1.f), vec3(1.f, 1.f, -1.f)) *
+            glm::rotate(glm::half_pi<float>(), vec3(1.f, 0.f, 0.f));
     prog1.setUniform("Projection", projection);
     prog1.setUniform("Model", model);
     prog1.setUniform("LightIntensity", vec3(0.9f, 0.9f, 0.9f));
@@ -241,34 +246,24 @@ int main()
 
     GLuint VAO = 0, VBO_vert = 0, VBO_tex = 0;
     vec3 vert[6] = {
-        { -1.0f, -1.0f, 0.0f },
-        { 1.0f, -1.0f, 0.0f },
-        { -1.0f, 1.0f, 0.0f },
-        { 1.0f, -1.0f, 0.0f },
-        { 1.0f, 1.0f, 0.0f },
-        { -1.0f, 1.0f, 0.0f },
+        { -1.0f, -1.0f, 0.0f }, { 1.0f, -1.0f, 0.0f }, { -1.0f, 1.0f, 0.0f },
+        { 1.0f, -1.0f, 0.0f },  { 1.0f, 1.0f, 0.0f },  { -1.0f, 1.0f, 0.0f },
     };
-    vec2 tex[6] = {
-        { 0.0f, 0.0f },
-        { 1.0f, 0.0f },
-        { 0.0f, 1.0f },
-        { 1.0f, 0.0f },
-        { 1.0f, 1.0f },
-        { 0.0f, 1.0f }
-    };
+    vec2 tex[6] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 0.0f, 1.0f },
+                    { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
     glGenBuffers(1, &VBO_vert);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_vert);
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(vec3), vert, GL_STATIC_DRAW);
-    glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte*)NULL + (0)));
+    glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
     glEnableVertexAttribArray(0);
 
     glGenBuffers(1, &VBO_tex);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_tex);
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(vec2), tex, GL_STATIC_DRAW);
-    glVertexAttribPointer((GLuint)1, 2, GL_FLOAT, GL_FALSE, 0, ((GLubyte*)NULL + (0)));
+    glVertexAttribPointer((GLuint)1, 2, GL_FLOAT, GL_FALSE, 0, ((GLubyte *)NULL + (0)));
     glEnableVertexAttribArray(1);
 
     float time = glfwGetTime();
@@ -277,7 +272,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         prog.use();
         light_pos = vec4(0.2f, 1.5f, -3.5f, 1.0f);
-        view = glm::lookAt(vec3(0.f, 1.f, 1.f) + pos, vec3(0.f, 1.f, 0.f) + pos, vec3(0.f, 1.0f, 0.f));
+        view =
+            glm::lookAt(vec3(0.f, 1.f, 1.f) + pos, vec3(0.f, 1.f, 0.f) + pos, vec3(0.f, 1.0f, 0.f));
         prog.setUniform("Set_fog", set_fog);
         prog.setUniform("LightPosition", view * light_pos);
         prog.setUniform("Veiw", view);

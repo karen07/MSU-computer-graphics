@@ -7,21 +7,18 @@ using std::ios;
 #include <sstream>
 #include <sys/stat.h>
 
-namespace GLSLShaderInfo {
+namespace GLSLShaderInfo
+{
 struct shader_file_extension {
-    const char* ext;
+    const char *ext;
     GLSLShader::GLSLShaderType type;
 };
 
 struct shader_file_extension extensions[] = {
-    { ".vs", GLSLShader::VERTEX },
-    { ".vert", GLSLShader::VERTEX },
-    { ".gs", GLSLShader::GEOMETRY },
-    { ".geom", GLSLShader::GEOMETRY },
-    { ".tcs", GLSLShader::TESS_CONTROL },
-    { ".tes", GLSLShader::TESS_EVALUATION },
-    { ".fs", GLSLShader::FRAGMENT },
-    { ".frag", GLSLShader::FRAGMENT },
+    { ".vs", GLSLShader::VERTEX },        { ".vert", GLSLShader::VERTEX },
+    { ".gs", GLSLShader::GEOMETRY },      { ".geom", GLSLShader::GEOMETRY },
+    { ".tcs", GLSLShader::TESS_CONTROL }, { ".tes", GLSLShader::TESS_EVALUATION },
+    { ".fs", GLSLShader::FRAGMENT },      { ".frag", GLSLShader::FRAGMENT },
     { ".cs", GLSLShader::COMPUTE }
 };
 }
@@ -42,7 +39,7 @@ GLSLProgram::~GLSLProgram()
     glGetProgramiv(handle, GL_ATTACHED_SHADERS, &numShaders);
 
     // Get the shader names
-    GLuint* shaderNames = new GLuint[numShaders];
+    GLuint *shaderNames = new GLuint[numShaders];
     glGetAttachedShaders(handle, numShaders, NULL, shaderNames);
 
     // Delete the shaders
@@ -55,9 +52,10 @@ GLSLProgram::~GLSLProgram()
     delete[] shaderNames;
 }
 
-void GLSLProgram::compileShader(const char* fileName) noexcept
+void GLSLProgram::compileShader(const char *fileName) noexcept
 {
-    int numExts = sizeof(GLSLShaderInfo::extensions) / sizeof(GLSLShaderInfo::shader_file_extension);
+    int numExts =
+        sizeof(GLSLShaderInfo::extensions) / sizeof(GLSLShaderInfo::shader_file_extension);
 
     // Check the file name's extension to determine the shader type
     string ext = getExtension(fileName);
@@ -73,7 +71,7 @@ void GLSLProgram::compileShader(const char* fileName) noexcept
     compileShader(fileName, type);
 }
 
-string GLSLProgram::getExtension(const char* name)
+string GLSLProgram::getExtension(const char *name)
 {
     string nameStr(name);
 
@@ -84,8 +82,7 @@ string GLSLProgram::getExtension(const char* name)
     return "";
 }
 
-void GLSLProgram::compileShader(const char* fileName,
-    GLSLShader::GLSLShaderType type) noexcept
+void GLSLProgram::compileShader(const char *fileName, GLSLShader::GLSLShaderType type) noexcept
 {
     if (handle <= 0) {
         handle = glCreateProgram();
@@ -101,9 +98,8 @@ void GLSLProgram::compileShader(const char* fileName,
     compileShader(code.str(), type, fileName);
 }
 
-void GLSLProgram::compileShader(const string& source,
-    GLSLShader::GLSLShaderType type,
-    const char* fileName) noexcept
+void GLSLProgram::compileShader(const string &source, GLSLShader::GLSLShaderType type,
+                                const char *fileName) noexcept
 {
     if (handle <= 0) {
         handle = glCreateProgram();
@@ -111,7 +107,7 @@ void GLSLProgram::compileShader(const string& source,
 
     GLuint shaderHandle = glCreateShader(type);
 
-    const char* c_code = source.c_str();
+    const char *c_code = source.c_str();
     glShaderSource(shaderHandle, 1, &c_code, NULL);
 
     // Compile the shader
@@ -126,7 +122,7 @@ void GLSLProgram::compileShader(const string& source,
         string logString;
         glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &length);
         if (length > 0) {
-            char* c_log = new char[length];
+            char *c_log = new char[length];
             int written = 0;
             glGetShaderInfoLog(shaderHandle, length, &written, c_log);
             logString = c_log;
@@ -162,7 +158,7 @@ void GLSLProgram::link() noexcept
         glGetProgramiv(handle, GL_INFO_LOG_LENGTH, &length);
 
         if (length > 0) {
-            char* c_log = new char[length];
+            char *c_log = new char[length];
             int written = 0;
             glGetProgramInfoLog(handle, length, &written, c_log);
             logString = c_log;
@@ -189,70 +185,70 @@ bool GLSLProgram::isLinked()
     return linked;
 }
 
-void GLSLProgram::bindAttribLocation(GLuint location, const char* name)
+void GLSLProgram::bindAttribLocation(GLuint location, const char *name)
 {
     glBindAttribLocation(handle, location, name);
 }
 
-void GLSLProgram::bindFragDataLocation(GLuint location, const char* name)
+void GLSLProgram::bindFragDataLocation(GLuint location, const char *name)
 {
     glBindFragDataLocation(handle, location, name);
 }
 
-void GLSLProgram::setUniform(const char* name, float x, float y, float z)
+void GLSLProgram::setUniform(const char *name, float x, float y, float z)
 {
     GLint loc = getUniformLocation(name);
     glUniform3f(loc, x, y, z);
 }
 
-void GLSLProgram::setUniform(const char* name, const vec3& v)
+void GLSLProgram::setUniform(const char *name, const vec3 &v)
 {
     this->setUniform(name, v.x, v.y, v.z);
 }
 
-void GLSLProgram::setUniform(const char* name, const vec4& v)
+void GLSLProgram::setUniform(const char *name, const vec4 &v)
 {
     GLint loc = getUniformLocation(name);
     glUniform4f(loc, v.x, v.y, v.z, v.w);
 }
 
-void GLSLProgram::setUniform(const char* name, const vec2& v)
+void GLSLProgram::setUniform(const char *name, const vec2 &v)
 {
     GLint loc = getUniformLocation(name);
     glUniform2f(loc, v.x, v.y);
 }
 
-void GLSLProgram::setUniform(const char* name, const mat4& m)
+void GLSLProgram::setUniform(const char *name, const mat4 &m)
 {
     GLint loc = getUniformLocation(name);
     glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
-void GLSLProgram::setUniform(const char* name, const mat3& m)
+void GLSLProgram::setUniform(const char *name, const mat3 &m)
 {
     GLint loc = getUniformLocation(name);
     glUniformMatrix3fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
-void GLSLProgram::setUniform(const char* name, float val)
+void GLSLProgram::setUniform(const char *name, float val)
 {
     GLint loc = getUniformLocation(name);
     glUniform1f(loc, val);
 }
 
-void GLSLProgram::setUniform(const char* name, int val)
+void GLSLProgram::setUniform(const char *name, int val)
 {
     GLint loc = getUniformLocation(name);
     glUniform1i(loc, val);
 }
 
-void GLSLProgram::setUniform(const char* name, GLuint val)
+void GLSLProgram::setUniform(const char *name, GLuint val)
 {
     GLint loc = getUniformLocation(name);
     glUniform1ui(loc, val);
 }
 
-void GLSLProgram::setUniform(const char* name, bool val)
+void GLSLProgram::setUniform(const char *name, bool val)
 {
     int loc = getUniformLocation(name);
     glUniform1i(loc, val);
@@ -273,7 +269,7 @@ void GLSLProgram::printActiveUniforms()
         if (results[3] != -1)
             continue; // Skip uniforms in blocks
         GLint nameBufSize = results[0] + 1;
-        char* name = new char[nameBufSize];
+        char *name = new char[nameBufSize];
         glGetProgramResourceName(handle, GL_UNIFORM, i, nameBufSize, NULL, name);
         printf("%-5d %s (%s)\n", results[2], name, getTypeString(results[1]));
         delete[] name;
@@ -294,13 +290,15 @@ void GLSLProgram::printActiveUniformBlocks()
         glGetProgramResourceiv(handle, GL_UNIFORM_BLOCK, block, 2, blockProps, 2, NULL, blockInfo);
         GLint numUnis = blockInfo[0];
 
-        char* blockName = new char[blockInfo[1] + 1];
-        glGetProgramResourceName(handle, GL_UNIFORM_BLOCK, block, blockInfo[1] + 1, NULL, blockName);
+        char *blockName = new char[blockInfo[1] + 1];
+        glGetProgramResourceName(handle, GL_UNIFORM_BLOCK, block, blockInfo[1] + 1, NULL,
+                                 blockName);
         printf("Uniform block \"%s\":\n", blockName);
         delete[] blockName;
 
-        GLint* unifIndexes = new GLint[numUnis];
-        glGetProgramResourceiv(handle, GL_UNIFORM_BLOCK, block, 1, blockIndex, numUnis, NULL, unifIndexes);
+        GLint *unifIndexes = new GLint[numUnis];
+        glGetProgramResourceiv(handle, GL_UNIFORM_BLOCK, block, 1, blockIndex, numUnis, NULL,
+                               unifIndexes);
 
         for (int unif = 0; unif < numUnis; ++unif) {
             GLint uniIndex = unifIndexes[unif];
@@ -308,7 +306,7 @@ void GLSLProgram::printActiveUniformBlocks()
             glGetProgramResourceiv(handle, GL_UNIFORM, uniIndex, 3, props, 3, NULL, results);
 
             GLint nameBufSize = results[0] + 1;
-            char* name = new char[nameBufSize];
+            char *name = new char[nameBufSize];
             glGetProgramResourceName(handle, GL_UNIFORM, uniIndex, nameBufSize, NULL, name);
             printf("    %s (%s)\n", name, getTypeString(results[1]));
             delete[] name;
@@ -331,14 +329,14 @@ void GLSLProgram::printActiveAttribs()
         glGetProgramResourceiv(handle, GL_PROGRAM_INPUT, i, 3, properties, 3, NULL, results);
 
         GLint nameBufSize = results[0] + 1;
-        char* name = new char[nameBufSize];
+        char *name = new char[nameBufSize];
         glGetProgramResourceName(handle, GL_PROGRAM_INPUT, i, nameBufSize, NULL, name);
         printf("%-5d %s (%s)\n", results[2], name, getTypeString(results[1]));
         delete[] name;
     }
 }
 
-const char* GLSLProgram::getTypeString(GLenum type)
+const char *GLSLProgram::getTypeString(GLenum type)
 {
     // There are many more types than are covered here, but
     // these are the most common in these examples.
@@ -384,7 +382,7 @@ void GLSLProgram::validate() noexcept
         glGetProgramiv(handle, GL_INFO_LOG_LENGTH, &length);
 
         if (length > 0) {
-            char* c_log = new char[length];
+            char *c_log = new char[length];
             int written = 0;
             glGetProgramInfoLog(handle, length, &written, c_log);
             logString = c_log;
@@ -393,7 +391,7 @@ void GLSLProgram::validate() noexcept
     }
 }
 
-int GLSLProgram::getUniformLocation(const char* name)
+int GLSLProgram::getUniformLocation(const char *name)
 {
     std::map<string, int>::iterator pos;
     pos = uniformLocations.find(name);
@@ -405,7 +403,7 @@ int GLSLProgram::getUniformLocation(const char* name)
     return uniformLocations[name];
 }
 
-bool GLSLProgram::fileExists(const string& fileName)
+bool GLSLProgram::fileExists(const string &fileName)
 {
     struct stat info;
     int ret = -1;

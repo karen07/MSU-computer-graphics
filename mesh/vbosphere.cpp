@@ -9,18 +9,17 @@ VBOSphere::VBOSphere(float rad, int sl, int st)
     , slices(sl)
     , stacks(st)
 {
-
     nVerts = (slices + 1) * (stacks + 1);
     elements = (slices * 2 * (stacks - 1)) * 3;
 
     // Verts
-    float* v = new float[3 * nVerts];
+    float *v = new float[3 * nVerts];
     // Normals
-    float* n = new float[3 * nVerts];
+    float *n = new float[3 * nVerts];
     // Tex coords
-    float* tex = new float[2 * nVerts];
+    float *tex = new float[2 * nVerts];
     // Elements
-    unsigned int* el = new unsigned int[elements];
+    unsigned int *el = new unsigned int[elements];
 
     // Generate the vertex data
     generateVerts(v, n, tex, el);
@@ -70,11 +69,10 @@ VBOSphere::VBOSphere(float rad, int sl, int st)
 void VBOSphere::render() const
 {
     glBindVertexArray(vaoHandle);
-    glDrawElements(GL_TRIANGLES, elements, GL_UNSIGNED_INT, ((GLubyte*)NULL + (0)));
+    glDrawElements(GL_TRIANGLES, elements, GL_UNSIGNED_INT, ((GLubyte *)NULL + (0)));
 }
 
-void VBOSphere::generateVerts(float* verts, float* norms, float* tex,
-    unsigned int* el)
+void VBOSphere::generateVerts(float *verts, float *norms, float *tex, unsigned int *el)
 {
     // Generate positions and normals
     GLfloat theta, phi;
