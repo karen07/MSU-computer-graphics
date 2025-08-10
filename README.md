@@ -4,7 +4,7 @@
 
 Dependencies Ubuntu:
 ```bash
-sudo apt update && sudo apt install build-essential libglm-dev liblodepng-dev libglfw3-dev libglew-dev cmake
+sudo apt update && sudo apt install -y build-essential libglm-dev liblodepng-dev libglfw3-dev libglew-dev cmake
 ```
 
 |    Key   |    Action     |
