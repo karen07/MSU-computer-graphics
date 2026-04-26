@@ -6,6 +6,7 @@ add_link_options()
 
 file(GLOB SRC "src/*.cpp" "glslprogram/*.cpp" "mesh/*.cpp")
 add_executable(${PROJECT_NAME} ${SRC})
+target_compile_definitions(${PROJECT_NAME} PRIVATE GLM_ENABLE_EXPERIMENTAL)
 target_link_libraries(${PROJECT_NAME} GLEW glfw OpenGL lodepng)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION /usr/bin)
