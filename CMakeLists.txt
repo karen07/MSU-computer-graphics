@@ -17,7 +17,7 @@ if(CLANGFORMAT)
         TARGET ${PROJECT_NAME}
         PRE_BUILD
         COMMAND
-        clang-format -i ${CMAKE_CURRENT_SOURCE_DIR}/glslprogram/*
-        ${CMAKE_CURRENT_SOURCE_DIR}/mesh/*
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/*)
+            clang-format -i ${CMAKE_CURRENT_SOURCE_DIR}/glslprogram/*
+            ${CMAKE_CURRENT_SOURCE_DIR}/mesh/*
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/*)
 endif()
