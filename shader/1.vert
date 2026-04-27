@@ -12,12 +12,14 @@ uniform vec4 LightPosition;
 uniform mat4 Projection;
 uniform mat4 Veiw;
 uniform mat4 Model;
-void main() {
+void main()
+{
     TexCoord = VertexTexCoord;
     vec3 Normal = vec3(normalize(Veiw * Model * vec4(VertexNormal, 0.0)));
     vec3 tang = vec3(normalize(Veiw * Model * vec4(1.0, 0.0, 0.0, 0.0)));
     vec3 binormal = normalize(cross(Normal, tang));
-    mat3 toObjectLocal = mat3(tang.x, binormal.x, Normal.x, tang.y, binormal.y, Normal.y, tang.z, binormal.z, Normal.z);
+    mat3 toObjectLocal = mat3(tang.x, binormal.x, Normal.x, tang.y, binormal.y, Normal.y, tang.z,
+                              binormal.z, Normal.z);
     vec3 pos = vec3(Veiw * Model * vec4(VertexPosition, 1.0));
     Position = pos;
     LightDir = normalize(toObjectLocal * (LightPosition.xyz - pos));

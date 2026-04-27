@@ -8,7 +8,8 @@ out vec3 Normal;
 uniform mat4 Projection;
 uniform mat4 Veiw;
 uniform mat4 Model;
-void main() {
+void main()
+{
     Normal = vec3(normalize(Veiw * Model * vec4(VertexNormal, 0.0)));
     Position = vec3(Veiw * Model * vec4(VertexPosition, 1.0));
     gl_Position = Projection * vec4(Position, 1.0);
