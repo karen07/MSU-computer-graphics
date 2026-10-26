@@ -1,22 +1,23 @@
 # MSU computer graphics
 
-MSU computer graphics is an interactive 3D OpenGL scene built as a compact computer graphics course project.
-
-The renderer uses GLSL shaders together with GLFW, GLEW, GLM and PNG textures. Runtime controls can switch fog, depth of field, FXAA and post-processing effects while moving through the scene.
-
-The repository keeps the scene code, shaders, textures and controls together as a self-contained demonstration rather than a reusable rendering engine.
+An interactive 3D OpenGL scene created as a computer graphics course project. It uses GLSL
+shaders and supports runtime control of fog, depth of field, anti-aliasing, and
+post-processing effects.
 
 ## Описание
 
-MSU computer graphics - интерактивная трехмерная сцена на OpenGL, сделанная как компактный учебный проект по компьютерной графике.
+Интерактивная трёхмерная сцена на OpenGL для учебного проекта по компьютерной графике.
+Использует GLSL-шейдеры и позволяет во время работы управлять туманом, глубиной резкости,
+сглаживанием и постобработкой.
 
-Рендерер использует шейдеры GLSL вместе с GLFW, GLEW, GLM и текстурами PNG. Во время работы можно переключать туман, глубину резкости, FXAA и эффекты постобработки и перемещаться по сцене.
+В реализации используются GLFW, GLEW, GLM и PNG-текстуры. Можно перемещаться по сцене и
+настраивать FXAA и другие графические эффекты во время работы.
 
 В репозитории вместе хранятся код сцены, шейдеры, текстуры и управление. Это самостоятельная демонстрация, а не переиспользуемый графический движок.
 
 ![Scene](https://github.com/user-attachments/assets/fc2fa621-3351-4b72-b9af-4222462b1469)
 
-## Зависимости
+## Требования
 
 Ubuntu:
 
@@ -61,7 +62,7 @@ cd build
 | X | FXAA |
 | +/- | Смена текстуры стены |
 
-## Структура
+## Структура проекта
 
 - `src/` - основной код сцены и render loop;
 - `shader/` - vertex/fragment GLSL shaders;
